@@ -1,0 +1,40 @@
+/* CSS Custom Properties for Animate.css */
+:root {
+  /* Animation durations */
+  --animate-duration: 1s;
+  --animate-duration-fast: 0.8s;
+  --animate-duration-faster: 0.5s;
+  --animate-duration-slow: 2s;
+  --animate-duration-slower: 3s;
+  
+  /* Animation delays */
+  --animate-delay-1s: 1s;
+  --animate-delay-2s: 2s;
+  --animate-delay-3s: 3s;
+  --animate-delay-4s: 4s;
+  --animate-delay-5s: 5s;
+  
+  /* Common easing functions */
+  --animate-easing-ease-out-cubic: cubic-bezier(0.215, 0.61, 0.355, 1);
+  --animate-easing-ease-in-cubic: cubic-bezier(0.755, 0.05, 0.855, 0.06);
+  --animate-easing-ease-in-out-cubic: cubic-bezier(0.645, 0.045, 0.355, 1);
+  
+  /* Common transform values */
+  --animate-scale-small: 0.3;
+  --animate-scale-medium: 0.9;
+  --animate-scale-large: 1.1;
+  --animate-scale-normal: 1;
+  
+  /* Common translate values */
+  --animate-translate-small: -15px;
+  --animate-translate-medium: -30px;
+  --animate-translate-large: -60px;
+}
+
+/* Dark mode support */
+@media (prefers-color-scheme: dark) {
+  :root {
+    /* Adjust animation properties for dark mode if needed */
+    --animate-duration: 1s;
+  }
+}

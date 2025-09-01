@@ -1,13 +1,174 @@
-@charset "UTF-8";
+/* Performance optimizations for animations */
 
-/*!
- * animate.css -https://daneden.github.io/animate.css/
- * Version - 3.7.1
- * Licensed under the MIT license - http://opensource.org/licenses/MIT
- *
- * Copyright (c) 2019 Daniel Eden
- */
+/* Enable hardware acceleration for better performance */
+.animated {
+  -webkit-transform: translateZ(0);
+  transform: translateZ(0);
+  -webkit-backface-visibility: hidden;
+  backface-visibility: hidden;
+  -webkit-perspective: 1000px;
+  perspective: 1000px;
+}
 
+/* Optimize specific animation types */
+.animated[class*="bounce"],
+.animated[class*="shake"],
+.animated[class*="wobble"] {
+  -webkit-transform-origin: center bottom;
+  transform-origin: center bottom;
+}
+
+.animated[class*="rotate"],
+.animated[class*="flip"] {
+  -webkit-transform-origin: center center;
+  transform-origin: center center;
+}
+
+.animated[class*="scale"],
+.animated[class*="zoom"] {
+  -webkit-transform-origin: center center;
+  transform-origin: center center;
+}
+
+/* Reduce motion for users who prefer it */
+@media (prefers-reduced-motion: reduce) {
+  .animated {
+    -webkit-animation-duration: 0.01ms !important;
+    animation-duration: 0.01ms !important;
+    -webkit-animation-iteration-count: 1 !important;
+    animation-iteration-count: 1 !important;
+    -webkit-transition-duration: 0.01ms !important;
+    transition-duration: 0.01ms !important;
+  }
+  
+  .animated.infinite {
+    -webkit-animation-iteration-count: 1 !important;
+    animation-iteration-count: 1 !important;
+  }
+}
+
+/* Print styles - disable animations */
+@media print {
+  .animated {
+    -webkit-animation: none !important;
+    animation: none !important;
+    -webkit-transition: none !important;
+    transition: none !important;
+  }
+}
+/* Base animation class */
+.animated {
+  -webkit-animation-duration: var(--animate-duration, 1s);
+  animation-duration: var(--animate-duration, 1s);
+  -webkit-animation-fill-mode: both;
+  animation-fill-mode: both;
+  will-change: transform, opacity;
+}
+
+/* Animation modifiers */
+.animated.infinite {
+  -webkit-animation-iteration-count: infinite;
+  animation-iteration-count: infinite;
+}
+
+/* Duration modifiers using CSS custom properties */
+.animated.fast {
+  -webkit-animation-duration: var(--animate-duration-fast, 0.8s);
+  animation-duration: var(--animate-duration-fast, 0.8s);
+}
+
+.animated.faster {
+  -webkit-animation-duration: var(--animate-duration-faster, 0.5s);
+  animation-duration: var(--animate-duration-faster, 0.5s);
+}
+
+.animated.slow {
+  -webkit-animation-duration: var(--animate-duration-slow, 2s);
+  animation-duration: var(--animate-duration-slow, 2s);
+}
+
+.animated.slower {
+  -webkit-animation-duration: var(--animate-duration-slower, 3s);
+  animation-duration: var(--animate-duration-slower, 3s);
+}
+
+/* Delay modifiers using CSS custom properties */
+.animated.delay-1s {
+  -webkit-animation-delay: var(--animate-delay-1s, 1s);
+  animation-delay: var(--animate-delay-1s, 1s);
+}
+
+.animated.delay-2s {
+  -webkit-animation-delay: var(--animate-delay-2s, 2s);
+  animation-delay: var(--animate-delay-2s, 2s);
+}
+
+.animated.delay-3s {
+  -webkit-animation-delay: var(--animate-delay-3s, 3s);
+  animation-delay: var(--animate-delay-3s, 3s);
+}
+
+.animated.delay-4s {
+  -webkit-animation-delay: var(--animate-delay-4s, 4s);
+  animation-delay: var(--animate-delay-4s, 4s);
+}
+
+.animated.delay-5s {
+  -webkit-animation-delay: var(--animate-delay-5s, 5s);
+  animation-delay: var(--animate-delay-5s, 5s);
+}
+
+@media (print), (prefers-reduced-motion: reduce) {
+  .animated {
+    -webkit-animation-duration: 1ms !important;
+    animation-duration: 1ms !important;
+    -webkit-transition-duration: 1ms !important;
+    transition-duration: 1ms !important;
+    -webkit-animation-iteration-count: 1 !important;
+    animation-iteration-count: 1 !important; 
+  }
+}
+
+/* CSS Custom Properties for Animate.css */
+:root {
+  /* Animation durations */
+  --animate-duration: 1s;
+  --animate-duration-fast: 0.8s;
+  --animate-duration-faster: 0.5s;
+  --animate-duration-slow: 2s;
+  --animate-duration-slower: 3s;
+  
+  /* Animation delays */
+  --animate-delay-1s: 1s;
+  --animate-delay-2s: 2s;
+  --animate-delay-3s: 3s;
+  --animate-delay-4s: 4s;
+  --animate-delay-5s: 5s;
+  
+  /* Common easing functions */
+  --animate-easing-ease-out-cubic: cubic-bezier(0.215, 0.61, 0.355, 1);
+  --animate-easing-ease-in-cubic: cubic-bezier(0.755, 0.05, 0.855, 0.06);
+  --animate-easing-ease-in-out-cubic: cubic-bezier(0.645, 0.045, 0.355, 1);
+  
+  /* Common transform values */
+  --animate-scale-small: 0.3;
+  --animate-scale-medium: 0.9;
+  --animate-scale-large: 1.1;
+  --animate-scale-normal: 1;
+  
+  /* Common translate values */
+  --animate-translate-small: -15px;
+  --animate-translate-medium: -30px;
+  --animate-translate-large: -60px;
+}
+
+/* Dark mode support */
+@media (prefers-color-scheme: dark) {
+  :root {
+    /* Adjust animation properties for dark mode if needed */
+    --animate-duration: 1s;
+  }
+}
 @-webkit-keyframes bounce {
   from,
   20%,
@@ -40,7 +201,6 @@
     transform: translate3d(0, -4px, 0);
   }
 }
-
 @keyframes bounce {
   from,
   20%,
@@ -580,38 +740,38 @@
   }
 
   22.2% {
-    -webkit-transform: skewX(-12.5deg) skewY(-12.5deg);
-    transform: skewX(-12.5deg) skewY(-12.5deg);
+    -webkit-transform: skew(-12.5deg, -12.5deg);
+    transform: skew(-12.5deg, -12.5deg);
   }
 
   33.3% {
-    -webkit-transform: skewX(6.25deg) skewY(6.25deg);
-    transform: skewX(6.25deg) skewY(6.25deg);
+    -webkit-transform: skew(6.25deg, 6.25deg);
+    transform: skew(6.25deg, 6.25deg);
   }
 
   44.4% {
-    -webkit-transform: skewX(-3.125deg) skewY(-3.125deg);
-    transform: skewX(-3.125deg) skewY(-3.125deg);
+    -webkit-transform: skew(-3.125deg, -3.125deg);
+    transform: skew(-3.125deg, -3.125deg);
   }
 
   55.5% {
-    -webkit-transform: skewX(1.5625deg) skewY(1.5625deg);
-    transform: skewX(1.5625deg) skewY(1.5625deg);
+    -webkit-transform: skew(1.5625deg, 1.5625deg);
+    transform: skew(1.5625deg, 1.5625deg);
   }
 
   66.6% {
-    -webkit-transform: skewX(-0.78125deg) skewY(-0.78125deg);
-    transform: skewX(-0.78125deg) skewY(-0.78125deg);
+    -webkit-transform: skew(-0.78125deg, -0.78125deg);
+    transform: skew(-0.78125deg, -0.78125deg);
   }
 
   77.7% {
-    -webkit-transform: skewX(0.390625deg) skewY(0.390625deg);
-    transform: skewX(0.390625deg) skewY(0.390625deg);
+    -webkit-transform: skew(0.390625deg, 0.390625deg);
+    transform: skew(0.390625deg, 0.390625deg);
   }
 
   88.8% {
-    -webkit-transform: skewX(-0.1953125deg) skewY(-0.1953125deg);
-    transform: skewX(-0.1953125deg) skewY(-0.1953125deg);
+    -webkit-transform: skew(-0.1953125deg, -0.1953125deg);
+    transform: skew(-0.1953125deg, -0.1953125deg);
   }
 }
 
@@ -624,38 +784,38 @@
   }
 
   22.2% {
-    -webkit-transform: skewX(-12.5deg) skewY(-12.5deg);
-    transform: skewX(-12.5deg) skewY(-12.5deg);
+    -webkit-transform: skew(-12.5deg, -12.5deg);
+    transform: skew(-12.5deg, -12.5deg);
   }
 
   33.3% {
-    -webkit-transform: skewX(6.25deg) skewY(6.25deg);
-    transform: skewX(6.25deg) skewY(6.25deg);
+    -webkit-transform: skew(6.25deg, 6.25deg);
+    transform: skew(6.25deg, 6.25deg);
   }
 
   44.4% {
-    -webkit-transform: skewX(-3.125deg) skewY(-3.125deg);
-    transform: skewX(-3.125deg) skewY(-3.125deg);
+    -webkit-transform: skew(-3.125deg, -3.125deg);
+    transform: skew(-3.125deg, -3.125deg);
   }
 
   55.5% {
-    -webkit-transform: skewX(1.5625deg) skewY(1.5625deg);
-    transform: skewX(1.5625deg) skewY(1.5625deg);
+    -webkit-transform: skew(1.5625deg, 1.5625deg);
+    transform: skew(1.5625deg, 1.5625deg);
   }
 
   66.6% {
-    -webkit-transform: skewX(-0.78125deg) skewY(-0.78125deg);
-    transform: skewX(-0.78125deg) skewY(-0.78125deg);
+    -webkit-transform: skew(-0.78125deg, -0.78125deg);
+    transform: skew(-0.78125deg, -0.78125deg);
   }
 
   77.7% {
-    -webkit-transform: skewX(0.390625deg) skewY(0.390625deg);
-    transform: skewX(0.390625deg) skewY(0.390625deg);
+    -webkit-transform: skew(0.390625deg, 0.390625deg);
+    transform: skew(0.390625deg, 0.390625deg);
   }
 
   88.8% {
-    -webkit-transform: skewX(-0.1953125deg) skewY(-0.1953125deg);
-    transform: skewX(-0.1953125deg) skewY(-0.1953125deg);
+    -webkit-transform: skew(-0.1953125deg, -0.1953125deg);
+    transform: skew(-0.1953125deg, -0.1953125deg);
   }
 }
 
@@ -1901,8 +2061,7 @@
 
 @-webkit-keyframes flip {
   from {
-    -webkit-transform: perspective(400px) scale3d(1, 1, 1) translate3d(0, 0, 0)
-      rotate3d(0, 1, 0, -360deg);
+    -webkit-transform: perspective(400px) scale3d(1, 1, 1) translate3d(0, 0, 0) rotate3d(0, 1, 0, -360deg);
     transform: perspective(400px) scale3d(1, 1, 1) translate3d(0, 0, 0) rotate3d(0, 1, 0, -360deg);
     -webkit-animation-timing-function: ease-out;
     animation-timing-function: ease-out;
@@ -1936,8 +2095,7 @@
   }
 
   to {
-    -webkit-transform: perspective(400px) scale3d(1, 1, 1) translate3d(0, 0, 0)
-      rotate3d(0, 1, 0, 0deg);
+    -webkit-transform: perspective(400px) scale3d(1, 1, 1) translate3d(0, 0, 0) rotate3d(0, 1, 0, 0deg);
     transform: perspective(400px) scale3d(1, 1, 1) translate3d(0, 0, 0) rotate3d(0, 1, 0, 0deg);
     -webkit-animation-timing-function: ease-in;
     animation-timing-function: ease-in;
@@ -1946,8 +2104,7 @@
 
 @keyframes flip {
   from {
-    -webkit-transform: perspective(400px) scale3d(1, 1, 1) translate3d(0, 0, 0)
-      rotate3d(0, 1, 0, -360deg);
+    -webkit-transform: perspective(400px) scale3d(1, 1, 1) translate3d(0, 0, 0) rotate3d(0, 1, 0, -360deg);
     transform: perspective(400px) scale3d(1, 1, 1) translate3d(0, 0, 0) rotate3d(0, 1, 0, -360deg);
     -webkit-animation-timing-function: ease-out;
     animation-timing-function: ease-out;
@@ -1981,8 +2138,7 @@
   }
 
   to {
-    -webkit-transform: perspective(400px) scale3d(1, 1, 1) translate3d(0, 0, 0)
-      rotate3d(0, 1, 0, 0deg);
+    -webkit-transform: perspective(400px) scale3d(1, 1, 1) translate3d(0, 0, 0) rotate3d(0, 1, 0, 0deg);
     transform: perspective(400px) scale3d(1, 1, 1) translate3d(0, 0, 0) rotate3d(0, 1, 0, 0deg);
     -webkit-animation-timing-function: ease-in;
     animation-timing-function: ease-in;
@@ -3554,72 +3710,4 @@
 .slideOutUp {
   -webkit-animation-name: slideOutUp;
   animation-name: slideOutUp;
-}
-
-.animated {
-  -webkit-animation-duration: 1s;
-  animation-duration: 1s;
-  -webkit-animation-fill-mode: both;
-  animation-fill-mode: both;
-}
-
-.animated.infinite {
-  -webkit-animation-iteration-count: infinite;
-  animation-iteration-count: infinite;
-}
-
-.animated.delay-1s {
-  -webkit-animation-delay: 1s;
-  animation-delay: 1s;
-}
-
-.animated.delay-2s {
-  -webkit-animation-delay: 2s;
-  animation-delay: 2s;
-}
-
-.animated.delay-3s {
-  -webkit-animation-delay: 3s;
-  animation-delay: 3s;
-}
-
-.animated.delay-4s {
-  -webkit-animation-delay: 4s;
-  animation-delay: 4s;
-}
-
-.animated.delay-5s {
-  -webkit-animation-delay: 5s;
-  animation-delay: 5s;
-}
-
-.animated.fast {
-  -webkit-animation-duration: 800ms;
-  animation-duration: 800ms;
-}
-
-.animated.faster {
-  -webkit-animation-duration: 500ms;
-  animation-duration: 500ms;
-}
-
-.animated.slow {
-  -webkit-animation-duration: 2s;
-  animation-duration: 2s;
-}
-
-.animated.slower {
-  -webkit-animation-duration: 3s;
-  animation-duration: 3s;
-}
-
-@media (print), (prefers-reduced-motion: reduce) {
-  .animated {
-    -webkit-animation-duration: 1ms !important;
-    animation-duration: 1ms !important;
-    -webkit-transition-duration: 1ms !important;
-    transition-duration: 1ms !important;
-    -webkit-animation-iteration-count: 1 !important;
-    animation-iteration-count: 1 !important;
-  }
 }

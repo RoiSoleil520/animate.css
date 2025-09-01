@@ -1,46 +1,51 @@
+/* Base animation class */
 .animated {
-  animation-duration: 1s;
+  animation-duration: var(--animate-duration, 1s);
   animation-fill-mode: both;
+  will-change: transform, opacity;
 }
 
+/* Animation modifiers */
 .animated.infinite {
   animation-iteration-count: infinite;
 }
 
-.animated.delay-1s {
-  animation-delay: 1s;
-}
-
-.animated.delay-2s {
-  animation-delay: 2s;
-}
-
-.animated.delay-3s {
-  animation-delay: 3s;
-}
-
-.animated.delay-4s {
-  animation-delay: 4s;
-}
-
-.animated.delay-5s {
-  animation-delay: 5s;
-}
-
+/* Duration modifiers using CSS custom properties */
 .animated.fast {
-  animation-duration: 800ms;
+  animation-duration: var(--animate-duration-fast, 0.8s);
 }
 
 .animated.faster {
-  animation-duration: 500ms;
+  animation-duration: var(--animate-duration-faster, 0.5s);
 }
 
 .animated.slow {
-  animation-duration: 2s;
+  animation-duration: var(--animate-duration-slow, 2s);
 }
 
 .animated.slower {
-  animation-duration: 3s;
+  animation-duration: var(--animate-duration-slower, 3s);
+}
+
+/* Delay modifiers using CSS custom properties */
+.animated.delay-1s {
+  animation-delay: var(--animate-delay-1s, 1s);
+}
+
+.animated.delay-2s {
+  animation-delay: var(--animate-delay-2s, 2s);
+}
+
+.animated.delay-3s {
+  animation-delay: var(--animate-delay-3s, 3s);
+}
+
+.animated.delay-4s {
+  animation-delay: var(--animate-delay-4s, 4s);
+}
+
+.animated.delay-5s {
+  animation-delay: var(--animate-delay-5s, 5s);
 }
 
 @media (print), (prefers-reduced-motion: reduce) {

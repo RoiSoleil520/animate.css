@@ -1,8 +1,19 @@
-# Animate.css [![GitHub release](https://img.shields.io/github/release/daneden/animate.css.svg)](https://github.com/daneden/animate.css/releases) [![CDNJS](https://img.shields.io/cdnjs/v/animate.css.svg)](https://cdnjs.com/libraries/animate.css) [![Build Status](https://travis-ci.com/daneden/animate.css.svg?branch=master)](https://travis-ci.com/daneden/animate.css) [![devDependencies Status](https://david-dm.org/daneden/animate.css/dev-status.svg)](https://david-dm.org/daneden/animate.css?type=dev) [![chat](https://img.shields.io/badge/chat-gitter-green.svg)](https://gitter.im/animate-css/Lobby) [![npm version](https://badge.fury.io/js/animate.css.svg)](https://www.npmjs.com/package/animate.css)
+# Animate.css [![GitHub release](https://img.shields.io/github/release/daneden/animate.css.svg)](https://github.com/daneden/animate.css/releases) [![CDNJS](https://img.shields.io/cdnjs/v/animate.css.svg)](https://cdnjs.com/libraries/animate.css) [![Build Status](https://github.com/daneden/animate.css/workflows/CI/badge.svg)](https://github.com/daneden/animate.css/actions) [![npm version](https://badge.fury.io/js/animate.css.svg)](https://www.npmjs.com/package/animate.css)
 
 _Just-add-water CSS animation_
 
 `animate.css` is a bunch of cool, fun, and cross-browser animations for you to use in your projects. Great for emphasis, home pages, sliders, and general just-add-water-awesomeness.
+
+## 🚀 Recent Optimizations
+
+This project has been optimized with modern build tools and practices:
+
+- **Modern Gulp 4** with async/await syntax
+- **Updated dependencies** for better performance and security
+- **Enhanced CSS optimization** with advanced minification
+- **GitHub Actions CI/CD** for automated testing and building
+- **Improved accessibility** with `prefers-reduced-motion` support
+- **Better performance** with `will-change` properties
 
 
 ## Installation
@@ -192,6 +203,51 @@ Next, run `gulp` to compile your custom builds. For example, if you want only so
   "wobble": true,
   "jello":true
 }
+```
+
+## Development
+
+### Prerequisites
+
+- Node.js 16+ 
+- npm or yarn
+
+### Setup
+
+```bash
+# Clone the repository
+git clone https://github.com/daneden/animate.css.git
+cd animate.css
+
+# Install dependencies
+npm install
+
+# Build the project
+npm run build
+
+# Watch for changes during development
+npm run dev
+```
+
+### Available Scripts
+
+- `npm run build` - Build the CSS files
+- `npm run dev` - Start development mode with file watching
+- `npm run clean` - Remove built files
+- `npm run prettier` - Format code with Prettier
+
+### Project Structure
+
+```
+animate.css/
+├── source/                 # Source CSS files
+│   ├── _base.css          # Base animation classes
+│   ├── attention_seekers/ # Attention-seeking animations
+│   ├── bouncing_entrances/# Bouncing entrance animations
+│   └── ...                # Other animation categories
+├── animate-config.json    # Animation configuration
+├── gulpfile.js           # Build configuration
+└── package.json          # Dependencies and scripts
 ```
 
 ## Accessibility
