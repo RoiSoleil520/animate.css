@@ -1,0 +1,46 @@
+/* Performance optimizations for animations */
+
+/* Enable hardware acceleration for better performance */
+.animated {
+  transform: translateZ(0);
+  backface-visibility: hidden;
+  perspective: 1000px;
+}
+
+/* Optimize specific animation types */
+.animated[class*="bounce"],
+.animated[class*="shake"],
+.animated[class*="wobble"] {
+  transform-origin: center bottom;
+}
+
+.animated[class*="rotate"],
+.animated[class*="flip"] {
+  transform-origin: center center;
+}
+
+.animated[class*="scale"],
+.animated[class*="zoom"] {
+  transform-origin: center center;
+}
+
+/* Reduce motion for users who prefer it */
+@media (prefers-reduced-motion: reduce) {
+  .animated {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+  }
+  
+  .animated.infinite {
+    animation-iteration-count: 1 !important;
+  }
+}
+
+/* Print styles - disable animations */
+@media print {
+  .animated {
+    animation: none !important;
+    transition: none !important;
+  }
+}

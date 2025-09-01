@@ -20,19 +20,17 @@
     }
   },
   "devDependencies": {
-    "autoprefixer": "^9.0.1",
-    "cssnano": "^4.0.3",
-    "eslint": "^5.2.0",
-    "gulp": "^4.0.0",
+    "autoprefixer": "^10.4.16",
+    "cssnano": "^6.0.1",
+    "eslint": "^8.55.0",
+    "gulp": "^4.0.2",
     "gulp-concat": "^2.6.1",
-    "gulp-header": "^2.0.1",
-    "gulp-postcss": "^8.0.0",
-    "gulp-rename": "^1.2.2",
-    "gulp-util": "^3.0.8",
-    "husky": "^1.2.0",
-    "lint-staged": "^8.1.0",
-    "prettier": "^1.10.2",
-    "run-sequence": "^2.2.1"
+    "gulp-header": "^2.0.9",
+    "gulp-postcss": "^9.0.1",
+    "gulp-rename": "^2.0.0",
+    "husky": "^8.0.3",
+    "lint-staged": "^15.2.0",
+    "prettier": "^3.1.1"
   },
   "lint-staged": {
     "*.{js,json,md,css}": [
@@ -47,10 +45,13 @@
     "trailingComma": "all"
   },
   "scripts": {
-    "gulp": "./node_modules/gulp/bin/gulp.js",
+    "build": "gulp",
+    "dev": "gulp watch",
     "start": "gulp",
     "prettier": "prettier --write \"**/*.{js,json,md,css}\"",
-    "precommit": "lint-staged"
+    "precommit": "lint-staged",
+    "clean": "rm -f animate.css animate.min.css",
+    "test": "echo \"No tests specified\" && exit 0"
   },
   "spm": {
     "main": "./animate.css"
