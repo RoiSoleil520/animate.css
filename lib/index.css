@@ -1,0 +1,17 @@
+/* Animate.css Modular Index */
+/* Import only the animations you need for better performance */
+
+/* Base styles - always required */
+@import '../source/_base.css';
+
+/* Individual animation categories - import as needed */
+/* @import './attention_seekers/bounce.css'; */
+/* @import './fading_entrances/fadeIn.css'; */
+/* @import './bouncing_entrances/bounceIn.css'; */
+
+/* 
+Example usage:
+@import '~animate.css/lib/index.css';
+@import '~animate.css/lib/attention_seekers/bounce.css';
+@import '~animate.css/lib/fading_entrances/fadeIn.css';
+*/

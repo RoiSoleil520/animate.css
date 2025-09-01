@@ -1,30 +1,28 @@
 // Utilities
-var autoprefixer = require('autoprefixer');
-var cssnano = require('cssnano');
-var fs = require('fs');
+const autoprefixer = require('autoprefixer');
+const cssnano = require('cssnano');
+const fs = require('fs');
 
 // Gulp
-var gulp = require('gulp');
+const gulp = require('gulp');
 
 // Gulp plugins
-var concat = require('gulp-concat');
-var gutil = require('gulp-util');
-var header = require('gulp-header');
-var postcss = require('gulp-postcss');
-var rename = require('gulp-rename');
-var runSequence = require('run-sequence');
+const concat = require('gulp-concat');
+const header = require('gulp-header');
+const postcss = require('gulp-postcss');
+const rename = require('gulp-rename');
 
 // Misc/global vars
-var pkg = JSON.parse(fs.readFileSync('package.json'));
-var activatedAnimations = activateAnimations();
+const pkg = JSON.parse(fs.readFileSync('package.json'));
+const activatedAnimations = activateAnimations();
 
 // Task options
-var opts = {
+const opts = {
   destPath: './',
   concatName: 'animate.css',
 
   autoprefixer: {
-    browsers: ['> 1%', 'last 2 versions', 'Firefox ESR'],
+    overrideBrowserslist: ['> 1%', 'last 2 versions', 'Firefox ESR'],
     cascade: false,
   },
 
@@ -54,7 +52,18 @@ gulp.task('createCSS', function() {
     .pipe(concat(opts.concatName))
     .pipe(postcss([autoprefixer(opts.autoprefixer)]))
     .pipe(gulp.dest(opts.destPath))
-    .pipe(postcss([cssnano({reduceIdents: {keyframes: false}})]))
+    .pipe(postcss([cssnano({
+      preset: ['default', {
+        discardComments: { removeAll: true },
+        normalizeWhitespace: true,
+        reduceIdents: { keyframes: false },
+        mergeLonghand: true,
+        mergeRules: true,
+        minifySelectors: true,
+        normalizeUrl: false,
+        discardUnused: false,
+      }]
+    })]))
     .pipe(rename(opts.minRename))
     .pipe(gulp.dest(opts.destPath));
 });
@@ -66,7 +75,26 @@ gulp.task('addHeader', function() {
     .pipe(gulp.dest(opts.destPath));
 });
 
+// Create individual optimized animation files for tree-shaking
+gulp.task('createModular', function() {
+  return gulp
+    .src(['source/**/*.css', '!source/_base.css'])
+    .pipe(postcss([autoprefixer(opts.autoprefixer)]))
+    .pipe(postcss([cssnano({
+      preset: ['default', {
+        discardComments: { removeAll: true },
+        normalizeWhitespace: true,
+        reduceIdents: { keyframes: false },
+        mergeLonghand: true,
+        mergeRules: true,
+        minifySelectors: true,
+      }]
+    })]))
+    .pipe(gulp.dest('./lib/'));
+});
+
 gulp.task('default', gulp.series('createCSS', 'addHeader'));
+gulp.task('modular', gulp.series('createModular'));
 
 // ----------------------------
 // Helpers/functions
@@ -74,33 +102,30 @@ gulp.task('default', gulp.series('createCSS', 'addHeader'));
 
 // Read the config file and return an array of the animations to be activated
 function activateAnimations() {
-  var categories = JSON.parse(fs.readFileSync('animate-config.json')),
-    category,
-    files,
-    file,
-    target = [],
-    count = 0;
+  const categories = JSON.parse(fs.readFileSync('animate-config.json'));
+  const target = [];
+  let count = 0;
 
-  for (category in categories) {
+  for (const category in categories) {
     if (categories.hasOwnProperty(category)) {
-      files = categories[category];
+      const files = categories[category];
 
-      for (file in files) {
+      for (const file in files) {
         if (files[file]) {
           // marked as true
-          target.push('source/' + category + '/' + file + '.css');
+          target.push(`source/${category}/${file}.css`);
           count += 1;
         }
       }
     }
   }
   // prepend base CSS
-  target.push('source/_base.css');
+  target.unshift('source/_base.css');
 
   if (!count) {
-    gutil.log('No animations activated.');
+    console.log('No animations activated.');
   } else {
-    gutil.log(count + (count > 1 ? ' animations' : ' animation') + ' activated.');
+    console.log(`${count} ${count > 1 ? 'animations' : 'animation'} activated.`);
   }
 
   return target;

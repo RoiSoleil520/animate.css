@@ -1,14 +1,12 @@
 @keyframes slideOutRight {
   from {
-    transform: translate3d(0, 0, 0);
-  }
+    transform: translateZ(0)}
 
   to {
     visibility: hidden;
-    transform: translate3d(100%, 0, 0);
-  }
+    transform: translate3d(100%, 0, 0)}
 }
 
 .slideOutRight {
   animation-name: slideOutRight;
-}
+  will-change: transform}
