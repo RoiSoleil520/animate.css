@@ -8,11 +8,9 @@ var gulp = require('gulp');
 
 // Gulp plugins
 var concat = require('gulp-concat');
-var gutil = require('gulp-util');
 var header = require('gulp-header');
 var postcss = require('gulp-postcss');
 var rename = require('gulp-rename');
-var runSequence = require('run-sequence');
 
 // Misc/global vars
 var pkg = JSON.parse(fs.readFileSync('package.json'));
@@ -24,7 +22,6 @@ var opts = {
   concatName: 'animate.css',
 
   autoprefixer: {
-    browsers: ['> 1%', 'last 2 versions', 'Firefox ESR'],
     cascade: false,
   },
 
@@ -52,7 +49,7 @@ gulp.task('createCSS', function() {
   return gulp
     .src(activatedAnimations)
     .pipe(concat(opts.concatName))
-    .pipe(postcss([autoprefixer(opts.autoprefixer)]))
+    .pipe(postcss([autoprefixer()]))
     .pipe(gulp.dest(opts.destPath))
     .pipe(postcss([cssnano({reduceIdents: {keyframes: false}})]))
     .pipe(rename(opts.minRename))
@@ -98,9 +95,9 @@ function activateAnimations() {
   target.push('source/_base.css');
 
   if (!count) {
-    gutil.log('No animations activated.');
+    console.log('No animations activated.');
   } else {
-    gutil.log(count + (count > 1 ? ' animations' : ' animation') + ' activated.');
+    console.log(count + (count > 1 ? ' animations' : ' animation') + ' activated.');
   }
 
   return target;
