@@ -1,31 +1,32 @@
 // Utilities
-var autoprefixer = require('autoprefixer');
-var cssnano = require('cssnano');
-var fs = require('fs');
+const autoprefixer = require('autoprefixer');
+const cssnano = require('cssnano');
+const fs = require('fs');
+const path = require('path');
 
 // Gulp
-var gulp = require('gulp');
+const { src, dest, series, parallel } = require('gulp');
 
 // Gulp plugins
-var concat = require('gulp-concat');
-var gutil = require('gulp-util');
-var header = require('gulp-header');
-var postcss = require('gulp-postcss');
-var rename = require('gulp-rename');
-var runSequence = require('run-sequence');
+const concat = require('gulp-concat');
+const header = require('gulp-header');
+const postcss = require('gulp-postcss');
+const rename = require('gulp-rename');
+const sourcemaps = require('gulp-sourcemaps');
 
 // Misc/global vars
-var pkg = JSON.parse(fs.readFileSync('package.json'));
-var activatedAnimations = activateAnimations();
+const pkg = JSON.parse(fs.readFileSync('package.json'));
+let activatedAnimations;
 
 // Task options
-var opts = {
+const opts = {
   destPath: './',
   concatName: 'animate.css',
 
   autoprefixer: {
-    browsers: ['> 1%', 'last 2 versions', 'Firefox ESR'],
+    overrideBrowserslist: ['> 1%', 'last 2 versions', 'Firefox ESR'],
     cascade: false,
+    grid: true,
   },
 
   minRename: {
@@ -48,25 +49,44 @@ var opts = {
 // Gulp task definitions
 // ----------------------------
 
-gulp.task('createCSS', function() {
-  return gulp
-    .src(activatedAnimations)
+function createCSS() {
+  activatedAnimations = activateAnimations();
+  return src(activatedAnimations)
+    .pipe(sourcemaps.init())
     .pipe(concat(opts.concatName))
     .pipe(postcss([autoprefixer(opts.autoprefixer)]))
-    .pipe(gulp.dest(opts.destPath))
-    .pipe(postcss([cssnano({reduceIdents: {keyframes: false}})]))
+    .pipe(dest(opts.destPath))
+    .pipe(postcss([
+      cssnano({
+        preset: ['default', {
+          reduceIdents: {
+            keyframes: false
+          },
+          discardComments: {
+            removeAll: true
+          }
+        }]
+      })
+    ]))
     .pipe(rename(opts.minRename))
-    .pipe(gulp.dest(opts.destPath));
-});
+    .pipe(sourcemaps.write('.'))
+    .pipe(dest(opts.destPath));
+}
 
-gulp.task('addHeader', function() {
-  return gulp
-    .src('*.css')
+function addHeader() {
+  return src(['*.css', '!*.min.css'])
     .pipe(header(opts.banner, pkg))
-    .pipe(gulp.dest(opts.destPath));
-});
+    .pipe(dest(opts.destPath))
+    .pipe(src('*.min.css'))
+    .pipe(header(opts.banner, pkg))
+    .pipe(dest(opts.destPath));
+}
 
-gulp.task('default', gulp.series('createCSS', 'addHeader'));
+// Export tasks
+exports.createCSS = createCSS;
+exports.addHeader = addHeader;
+exports.default = series(createCSS, addHeader);
+exports.build = exports.default;
 
 // ----------------------------
 // Helpers/functions
@@ -74,33 +94,23 @@ gulp.task('default', gulp.series('createCSS', 'addHeader'));
 
 // Read the config file and return an array of the animations to be activated
 function activateAnimations() {
-  var categories = JSON.parse(fs.readFileSync('animate-config.json')),
-    category,
-    files,
-    file,
-    target = [],
-    count = 0;
+  const categories = JSON.parse(fs.readFileSync('animate-config.json'));
+  const target = ['source/_base.css']; // prepend base CSS first
+  let count = 0;
 
-  for (category in categories) {
-    if (categories.hasOwnProperty(category)) {
-      files = categories[category];
-
-      for (file in files) {
-        if (files[file]) {
-          // marked as true
-          target.push('source/' + category + '/' + file + '.css');
-          count += 1;
-        }
+  Object.entries(categories).forEach(([category, files]) => {
+    Object.entries(files).forEach(([file, isActive]) => {
+      if (isActive) {
+        target.push(path.join('source', category, `${file}.css`));
+        count++;
       }
-    }
-  }
-  // prepend base CSS
-  target.push('source/_base.css');
+    });
+  });
 
   if (!count) {
-    gutil.log('No animations activated.');
+    console.log('⚠️  No animations activated.');
   } else {
-    gutil.log(count + (count > 1 ? ' animations' : ' animation') + ' activated.');
+    console.log(`✅ ${count} animation${count > 1 ? 's' : ''} activated.`);
   }
 
   return target;

@@ -1,0 +1,338 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Animate.css - Optimized Demo</title>
+    <link rel="stylesheet" href="animate.min.css">
+    <style>
+        :root {
+            --primary-color: #667eea;
+            --secondary-color: #764ba2;
+            --text-color: #2d3748;
+            --bg-color: #f7fafc;
+        }
+        
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
+            background: var(--bg-color);
+            color: var(--text-color);
+            line-height: 1.6;
+        }
+        
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 2rem;
+        }
+        
+        header {
+            text-align: center;
+            padding: 4rem 0;
+            background: linear-gradient(135deg, var(--primary-color) 0%, var(--secondary-color) 100%);
+            color: white;
+            margin-bottom: 3rem;
+        }
+        
+        h1 {
+            font-size: 3rem;
+            margin-bottom: 1rem;
+        }
+        
+        .subtitle {
+            font-size: 1.25rem;
+            opacity: 0.9;
+        }
+        
+        .controls {
+            display: flex;
+            gap: 1rem;
+            justify-content: center;
+            margin-bottom: 3rem;
+            flex-wrap: wrap;
+        }
+        
+        .btn {
+            padding: 0.75rem 1.5rem;
+            background: var(--primary-color);
+            color: white;
+            border: none;
+            border-radius: 0.5rem;
+            cursor: pointer;
+            font-size: 1rem;
+            transition: all 0.3s ease;
+        }
+        
+        .btn:hover {
+            background: var(--secondary-color);
+            transform: translateY(-2px);
+            box-shadow: 0 10px 20px rgba(0,0,0,0.1);
+        }
+        
+        .animation-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 2rem;
+            margin-bottom: 3rem;
+        }
+        
+        .animation-card {
+            background: white;
+            padding: 2rem;
+            border-radius: 1rem;
+            box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+            text-align: center;
+            transition: all 0.3s ease;
+        }
+        
+        .animation-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 30px rgba(0,0,0,0.15);
+        }
+        
+        .demo-box {
+            width: 100px;
+            height: 100px;
+            background: linear-gradient(135deg, var(--primary-color) 0%, var(--secondary-color) 100%);
+            margin: 2rem auto;
+            border-radius: 1rem;
+        }
+        
+        .animation-name {
+            font-weight: 600;
+            color: var(--primary-color);
+            margin-top: 1rem;
+        }
+        
+        .performance-section {
+            background: white;
+            padding: 3rem;
+            border-radius: 1rem;
+            margin-bottom: 3rem;
+            box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+        }
+        
+        .performance-section h2 {
+            color: var(--primary-color);
+            margin-bottom: 1.5rem;
+        }
+        
+        .feature-list {
+            list-style: none;
+            padding: 0;
+        }
+        
+        .feature-list li {
+            padding: 0.75rem 0;
+            border-bottom: 1px solid #e2e8f0;
+        }
+        
+        .feature-list li:last-child {
+            border-bottom: none;
+        }
+        
+        .feature-list li::before {
+            content: "✓ ";
+            color: #48bb78;
+            font-weight: bold;
+            margin-right: 0.5rem;
+        }
+        
+        .scroll-demo {
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            margin: 3rem -2rem;
+        }
+        
+        .scroll-content {
+            text-align: center;
+            padding: 2rem;
+        }
+        
+        @media (max-width: 768px) {
+            h1 {
+                font-size: 2rem;
+            }
+            
+            .animation-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+    </style>
+</head>
+<body>
+    <header class="animated fadeInDown">
+        <h1>Animate.css Optimized</h1>
+        <p class="subtitle">Performance-focused CSS animations</p>
+    </header>
+    
+    <div class="container">
+        <div class="controls">
+            <button class="btn" onclick="playAll()">Play All Animations</button>
+            <button class="btn" onclick="randomAnimation()">Random Animation</button>
+            <button class="btn" onclick="chainDemo()">Chain Animations</button>
+            <button class="btn" onclick="toggleDuration()">Toggle Speed</button>
+        </div>
+        
+        <div class="animation-grid">
+            <div class="animation-card">
+                <div class="demo-box animated" data-animation="bounce"></div>
+                <div class="animation-name">Bounce</div>
+            </div>
+            
+            <div class="animation-card">
+                <div class="demo-box animated" data-animation="flash"></div>
+                <div class="animation-name">Flash</div>
+            </div>
+            
+            <div class="animation-card">
+                <div class="demo-box animated" data-animation="pulse"></div>
+                <div class="animation-name">Pulse</div>
+            </div>
+            
+            <div class="animation-card">
+                <div class="demo-box animated" data-animation="rubberBand"></div>
+                <div class="animation-name">Rubber Band</div>
+            </div>
+            
+            <div class="animation-card">
+                <div class="demo-box animated" data-animation="shakeX"></div>
+                <div class="animation-name">Shake</div>
+            </div>
+            
+            <div class="animation-card">
+                <div class="demo-box animated" data-animation="swing"></div>
+                <div class="animation-name">Swing</div>
+            </div>
+            
+            <div class="animation-card">
+                <div class="demo-box animated" data-animation="tada"></div>
+                <div class="animation-name">Tada</div>
+            </div>
+            
+            <div class="animation-card">
+                <div class="demo-box animated" data-animation="wobble"></div>
+                <div class="animation-name">Wobble</div>
+            </div>
+        </div>
+        
+        <div class="performance-section animated fadeInUp">
+            <h2>🚀 Performance Optimizations</h2>
+            <ul class="feature-list">
+                <li>CSS Custom Properties for dynamic control</li>
+                <li>GPU acceleration with transform3d and will-change</li>
+                <li>Reduced motion support for accessibility</li>
+                <li>Optimized keyframes and timing functions</li>
+                <li>Source maps for better debugging</li>
+                <li>Modern build pipeline with Webpack support</li>
+                <li>Lazy loading animations with Intersection Observer</li>
+                <li>Minimal file size with advanced compression</li>
+            </ul>
+        </div>
+    </div>
+    
+    <div class="scroll-demo" data-scroll-animation="fadeInUp">
+        <div class="scroll-content">
+            <h2>Scroll-triggered Animation</h2>
+            <p>This content animates when scrolled into view!</p>
+        </div>
+    </div>
+    
+    <script>
+        // Animation utilities
+        function animateElement(element, animationName) {
+            element.classList.remove('bounce', 'flash', 'pulse', 'rubberBand', 'shakeX', 'swing', 'tada', 'wobble');
+            void element.offsetWidth; // Trigger reflow
+            element.classList.add(animationName);
+        }
+        
+        function playAll() {
+            const boxes = document.querySelectorAll('.demo-box');
+            boxes.forEach((box, index) => {
+                setTimeout(() => {
+                    const animation = box.dataset.animation;
+                    animateElement(box, animation);
+                }, index * 100);
+            });
+        }
+        
+        function randomAnimation() {
+            const animations = ['bounce', 'flash', 'pulse', 'rubberBand', 'shakeX', 'swing', 'tada', 'wobble'];
+            const boxes = document.querySelectorAll('.demo-box');
+            
+            boxes.forEach(box => {
+                const randomAnim = animations[Math.floor(Math.random() * animations.length)];
+                animateElement(box, randomAnim);
+            });
+        }
+        
+        function chainDemo() {
+            const boxes = document.querySelectorAll('.demo-box');
+            const animations = ['pulse', 'rubberBand', 'tada'];
+            
+            boxes.forEach((box, boxIndex) => {
+                animations.forEach((anim, animIndex) => {
+                    setTimeout(() => {
+                        animateElement(box, anim);
+                    }, (boxIndex * 300) + (animIndex * 1000));
+                });
+            });
+        }
+        
+        let isFast = false;
+        function toggleDuration() {
+            const root = document.documentElement;
+            isFast = !isFast;
+            
+            if (isFast) {
+                root.style.setProperty('--animate-duration', '500ms');
+            } else {
+                root.style.setProperty('--animate-duration', '1s');
+            }
+            
+            playAll();
+        }
+        
+        // Initialize animations on cards click
+        document.querySelectorAll('.animation-card').forEach(card => {
+            card.addEventListener('click', function() {
+                const box = this.querySelector('.demo-box');
+                const animation = box.dataset.animation;
+                animateElement(box, animation);
+            });
+        });
+        
+        // Intersection Observer for scroll animations
+        if ('IntersectionObserver' in window) {
+            const observer = new IntersectionObserver(entries => {
+                entries.forEach(entry => {
+                    if (entry.isIntersecting) {
+                        const animation = entry.target.dataset.scrollAnimation;
+                        entry.target.classList.add('animated', animation);
+                        observer.unobserve(entry.target);
+                    }
+                });
+            }, { threshold: 0.1 });
+            
+            document.querySelectorAll('[data-scroll-animation]').forEach(el => {
+                observer.observe(el);
+            });
+        }
+        
+        // Auto-play on load
+        window.addEventListener('load', () => {
+            setTimeout(playAll, 500);
+        });
+    </script>
+</body>
+</html>
