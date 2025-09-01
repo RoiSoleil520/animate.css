@@ -1,13 +1,11 @@
 @keyframes fadeOut {
   from {
-    opacity: 1;
-  }
+    opacity: 1}
 
   to {
-    opacity: 0;
-  }
+    opacity: 0}
 }
 
 .fadeOut {
   animation-name: fadeOut;
-}
+  will-change: opacity}
